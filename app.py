@@ -47,7 +47,7 @@ def transaction_notification():
         print(f'Successful transaction received. Transaction ID: {transactionid}')
         # You can perform additional actions here, such as logging the transaction, triggering events, etc.
         return jsonify({'message': 'Success'}), 200  # Respond with success status
-        return "success"
+        # return "success"
     else:
         return jsonify({'message': 'Invalid request'}), 400  # Respond with error status
 
