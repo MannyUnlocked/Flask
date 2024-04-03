@@ -37,7 +37,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app) 
 
-@app.route('/transaction-state', methods=['POST'])
+@app.route('/transaction-stat', methods=['POST'])
 def transaction_notification():
     data = request.json  # Get JSON data from the request
     success = data.get('success') # Extract 'success' parameter from JSON data
