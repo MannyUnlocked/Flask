@@ -1,55 +1,48 @@
 # from flask import Flask, request, jsonify
-# # from flask_cors import CORS
-# from flask import Flask, request, jsonify
-# # from flask_cors import CORS
+# from flask_cors import CORS
+
 
 
 # app = Flask(__name__)
-# # CORS(app) 
-# @app.route('/')
-# def hello():
-#     return 'Hello world'
-# if __name__ == '__main__':
-#    app.run(debug=True)
+# CORS(app) 
 
-# @app.route('/transaction-state', methods=['POST'])
+# @app.route('/transaction-stat', methods=['POST','GET'])
 # def transaction_notification():
 #     data = request.json  # Get JSON data from the request
 #     success = data.get('success') # Extract 'success' parameter from JSON data
-#     transactionid = data.get('transactionId')
+#     # transactionid = data.get('transactionId')
 #     if success:
 #         # Handle successful transaction notification
-#         print(f'Successful transaction received. Transaction ID: {transactionid}')
+#         print(f'Successful transaction received.')
+#         # print(f'Successful transaction received. Transaction ID: {transactionid}')
 #         # You can perform additional actions here, such as logging the transaction, triggering events, etc.
 #         return jsonify({'message': 'Success'}), 200  # Respond with success status
-#         return "success"
 #     else:
 #         return jsonify({'message': 'Invalid request'}), 400  # Respond with error status
-
-# if __name__ == '__main__':
-#     app.run(debug=True)
-
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 
-
-
 app = Flask(__name__)
-CORS(app) 
+CORS(app)
 
-@app.route('/transaction-stat', methods=['POST','GET'])
+@app.route('/transaction-stat', methods=['POST', 'GET'])
 def transaction_notification():
-    data = request.json  # Get JSON data from the request
-    success = data.get('success') # Extract 'success' parameter from JSON data
-    # transactionid = data.get('transactionId')
-    if success:
-        # Handle successful transaction notification
-        print(f'Successful transaction received.')
-        # print(f'Successful transaction received. Transaction ID: {transactionid}')
-        # You can perform additional actions here, such as logging the transaction, triggering events, etc.
-        return jsonify({'message': 'Success'}), 200  # Respond with success status
-    else:
-        return jsonify({'message': 'Invalid request'}), 400  # Respond with error status
+    if request.method == 'POST':
+        # Handle POST request
+        data = request.json  # Get JSON data from the request
+        success = data.get('success')  # Extract 'success' parameter from JSON data
+        if success:
+            print('Successful transaction received.')
+            # Here, you can perform additional actions, such as logging the transaction, updating a database, etc.
+            return jsonify({'message': 'Transaction recorded successfully'}), 200
+        else:
+            # If the 'success' key is missing or False, return an error response
+            return jsonify({'message': 'Invalid request'}), 400
+    elif request.method == 'GET':
+        # Handle GET request
+        # For demonstration, let's just return a simple message. 
+        # You can adjust this part to return the actual data you want to provide.
+        return jsonify({'message': 'GET request received, adjust this response according to your needs.'}), 200
 
-# if __name__ == '__main__':
-#     app.run(debug=True)
+
+
