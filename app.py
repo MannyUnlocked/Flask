@@ -41,13 +41,13 @@ CORS(app)
 def transaction_notification():
     data = request.json  # Get JSON data from the request
     success = data.get('success') # Extract 'success' parameter from JSON data
-    transactionid = data.get('transactionId')
+    # transactionid = data.get('transactionId')
     if success:
         # Handle successful transaction notification
-        print(f'Successful transaction received. Transaction ID: {transactionid}')
+        print(f'Successful transaction received.')
+        # print(f'Successful transaction received. Transaction ID: {transactionid}')
         # You can perform additional actions here, such as logging the transaction, triggering events, etc.
         return jsonify({'message': 'Success'}), 200  # Respond with success status
-        return "success"
     else:
         return jsonify({'message': 'Invalid request'}), 400  # Respond with error status
 
