@@ -39,6 +39,7 @@ def transaction_notification():
             # If the 'success' key is missing or False, return an error response
             return jsonify({'message': 'Invalid request'}), 400
     elif request.method == 'GET':
+        print('get method received')
         # Handle GET request
         # For demonstration, let's just return a simple message. 
         # You can adjust this part to return the actual data you want to provide.
