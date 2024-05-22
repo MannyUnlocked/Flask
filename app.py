@@ -31,6 +31,7 @@ def transaction_notification():
         # Handle POST request
         data = request.json  # Get JSON data from the request
         success = data.get('success')  # Extract 'success' parameter from JSON data
+        print('POST method recieved')
         if success:
             print('Successful transaction received.')
             # Here, you can perform additional actions, such as logging the transaction, updating a database, etc.
