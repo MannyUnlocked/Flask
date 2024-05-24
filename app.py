@@ -21,6 +21,7 @@
 #         return jsonify({'message': 'Invalid request'}), 400  # Respond with error status
 from flask import Flask, request, jsonify
 from flask_cors import CORS
+import uuid  # Import uuid for generating unique transaction IDs
 
 app = Flask(__name__)
 CORS(app)
@@ -28,23 +29,19 @@ CORS(app)
 @app.route('/transaction-mode', methods=['POST', 'GET'])
 def transaction_notification():
     if request.method == 'POST':
-        # Handle POST request
-        data = request.json  # Get JSON data from the request
-        success = data.get('success')  # Extract 'success' parameter from JSON data
-        print('POST method recieved')
+        data = request.json
+        success = data.get('success')
+        print('POST method received')
         if success:
+            transaction_id = str(uuid.uuid4())  # Generate a unique transaction ID
             print('Successful transaction received.')
-            # Here, you can perform additional actions, such as logging the transaction, updating a database, etc.
-            return jsonify({'message': 'Transaction recorded successfully'}), 200
+            return jsonify({'message': 'Transaction recorded successfully', 'success': True, 'transaction_id': transaction_id}), 200
         else:
-            # If the 'success' key is missing or False, return an error response
             return jsonify({'message': 'Invalid request'}), 400
     elif request.method == 'GET':
-        print('get method received')
-        # Handle GET request
-        # For demonstration, let's just return a simple message. 
-        # You can adjust this part to return the actual data you want to provide.
-        return jsonify({'message': 'GET request received, adjust this response according to your needs.'}), 200
+        print('GET method received')
+        # For demonstration, return a static response with a unique transaction ID
+        return jsonify({'message': 'GET request received', 'success': True, 'transaction_id': str(uuid.uuid4())}), 200
 
 
 
