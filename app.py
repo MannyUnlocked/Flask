@@ -21,27 +21,37 @@
 #         return jsonify({'message': 'Invalid request'}), 400  # Respond with error status
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-import uuid  # Import uuid for generating unique transaction IDs
+import uuid
 
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/transaction-mode', methods=['POST', 'GET'])
+# Variable to store the last transaction ID
+last_transaction_id = None
+
+@app.route('/transaction-mode', methods=['POST'])
 def transaction_notification():
-    if request.method == 'POST':
-        data = request.json
-        success = data.get('success')
-        print('POST method received')
-        if success:
-            transaction_id = str(uuid.uuid4())  # Generate a unique transaction ID
-            print('Successful transaction received.')
-            return jsonify({'message': 'Transaction recorded successfully', 'success': True, 'transaction_id': transaction_id}), 200
-        else:
-            return jsonify({'message': 'Invalid request'}), 400
-    elif request.method == 'GET':
-        print('GET method received')
-        # For demonstration, return a static response with a unique transaction ID
-        return jsonify({'message': 'GET request received', 'success': True, 'transaction_id': str(uuid.uuid4())}), 200
+    global last_transaction_id
+    data = request.json
+    success = data.get('success')
+    print('POST method received')
+    if success:
+        # Generate a new transaction ID for a successful transaction
+        last_transaction_id = str(uuid.uuid4())
+        print('Successful transaction received.')
+        return jsonify({'message': 'Transaction recorded successfully', 'success': True, 'transaction_id': last_transaction_id}), 200
+    else:
+        return jsonify({'message': 'Invalid request'}), 400
+
+@app.route('/transaction-mode', methods=['GET'])
+def check_transaction_status():
+    global last_transaction_id
+    print('GET method received')
+    if last_transaction_id:
+        return jsonify({'message': 'GET request received', 'success': True, 'transaction_id': last_transaction_id}), 200
+    else:
+        return jsonify({'message': 'No transaction found', 'success': False}), 200
+
 
 
 
